@@ -9,7 +9,11 @@ from firebase_admin import credentials, messaging
 
 # Firebase 초기화
 cred = credentials.Certificate("firebase_key.json")
-firebase_admin.initialize_app(cred)
+try:
+    firebase_admin.get_app()
+except ValueError:
+    cred = credentials.Certificate("firebase_key.json")
+    firebase_admin.initialize_app(cred)
 
 app = FastAPI()
 
